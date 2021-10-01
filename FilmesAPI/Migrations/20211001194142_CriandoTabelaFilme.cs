@@ -20,14 +20,14 @@ namespace FilmesAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DbSetFilmes", x => x.Id);
+                    table.PrimaryKey("PK_Filme", x => x.Id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "DbSetFilmes");
+                name: "Filme");
         }
     }
 }

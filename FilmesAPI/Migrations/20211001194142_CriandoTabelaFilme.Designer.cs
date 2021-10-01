@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FilmesAPI.Migrations
 {
     [DbContext(typeof(FilmeContext))]
-    [Migration("20211001192842_CriandoTabelaFilme")]
+    [Migration("20211001194142_CriandoTabelaFilme")]
     partial class CriandoTabelaFilme
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,7 +41,7 @@ namespace FilmesAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DbSetFilmes");
+                    b.ToTable("Filme");
                 });
 #pragma warning restore 612, 618
         }

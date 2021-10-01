@@ -11,15 +11,21 @@ namespace FilmesAPI.Controllers
     [Route("[controller]")]
     public class FilmeController : ControllerBase
     {
-        private static List<Filme> filmes = new List<Filme>();
-        private static int id = 1;
+
+        private FilmeContext _context;
+
+        public FilmeController( FilmeContext filmeContext )
+        {
+            this._context = filmeContext;
+        }
+
 
         //Post
         [HttpPost]
         public IActionResult AdicionaFilmes( [FromBody] Filme filme )
         {
-            filme.Id = id++;
-            filmes.Add(filme);
+            _context.DbSetFilmes.Add(filme);
+            _context.SaveChanges();
 
             return CreatedAtAction(nameof(RecuperaFilmesPorID), new { Id = filme.Id }, filme);
         }
@@ -28,7 +34,7 @@ namespace FilmesAPI.Controllers
         [HttpGet]
         public IActionResult RecuperaFilmes()
         {
-            return Ok(filmes);
+            return Ok(_context.DbSetFilmes);
         }
 
         //GetByID
@@ -36,7 +42,7 @@ namespace FilmesAPI.Controllers
         public IActionResult RecuperaFilmesPorID( int id )
         {
             //Varre a lista e retorna o filme com o mesmo Id do parâmetro;
-            Filme filme = filmes.FirstOrDefault(f => f.Id == id);
+            Filme filme = _context.DbSetFilmes.FirstOrDefault(f => f.Id == id);
 
             if (filme != null)
             {
