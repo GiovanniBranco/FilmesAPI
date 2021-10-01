@@ -12,12 +12,31 @@ namespace FilmesAPI.Controllers
     public class FilmeController : ControllerBase
     {
         private static List<Filme> filmes = new List<Filme>();
+        private static int id = 1;
 
+        //Post
         [HttpPost]
-        public void AdicionaFilmes([FromBody]Filme filme )
+        public Filme AdicionaFilmes([FromBody]Filme filme )
         {
+            filme.Id = id++;
             filmes.Add(filme);
-            Console.WriteLine(filme.Titulo);
+
+            return filme;
+        }
+
+        //GetAll
+        [HttpGet]
+        public IEnumerable<Filme> RecuperaFilmes()
+        {
+            return filmes;
+        }
+
+        //GetByID
+        [HttpGet("{id}")]
+        public Filme RecuperaFilmesPorID(int id )
+        {
+            //Varre a lista e retorna o filme com o mesmo Id do parâmetro;
+            return filmes.FirstOrDefault(f => f.Id == id);
         }
     }
 }
