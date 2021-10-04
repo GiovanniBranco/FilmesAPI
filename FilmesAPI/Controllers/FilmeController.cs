@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FilmesAPI.Data.Dtos;
 using FilmesAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,8 +23,16 @@ namespace FilmesAPI.Controllers
 
         //Post
         [HttpPost]
-        public IActionResult AdicionaFilmes( [FromBody] Filme filme )
+        public IActionResult AdicionaFilmes( [FromBody] CreateFilmeDto filmeDto )
         {
+            Filme filme = new Filme
+            {
+                Titulo = filmeDto.Titulo,
+                Genero = filmeDto.Genero,
+                Diretor = filmeDto.Diretor,
+                Duracao = filmeDto.Duracao,
+            };
+
             _context.DbSetFilmes.Add(filme);
             _context.SaveChanges();
 
@@ -46,7 +55,17 @@ namespace FilmesAPI.Controllers
 
             if (filme != null)
             {
-                return Ok(filme);
+                ReadFilmeDto filmeDto = new ReadFilmeDto
+                {
+                    Titulo = filme.Titulo,
+                    Genero = filme.Genero,
+                    Duracao = filme.Duracao,
+                    Diretor = filme.Diretor,
+                    Id = filme.Id,
+                    HoraDaConsulta = DateTime.Now,
+                };
+
+                return Ok(filmeDto);
             }
             return NotFound();
         }
@@ -54,16 +73,16 @@ namespace FilmesAPI.Controllers
 
         //Update
         [HttpPut("{id}")]
-        public IActionResult AtualizaFilme( int id, [FromBody]Filme filme)
+        public IActionResult AtualizaFilme( int id, [FromBody] UpdateFilmeDto filmeDto)
         {
             Filme filmeDb = _context.DbSetFilmes.FirstOrDefault(f => f.Id == id);
 
             if (filmeDb != null)
             {
-                filmeDb.Titulo = filme.Titulo;
-                filmeDb.Diretor = filme.Diretor;
-                filmeDb.Genero = filme.Genero;
-                filmeDb.Duracao = filme.Duracao;
+                filmeDb.Titulo = filmeDto.Titulo;
+                filmeDb.Diretor = filmeDto.Diretor;
+                filmeDb.Genero = filmeDto.Genero;
+                filmeDb.Duracao = filmeDto.Duracao;
 
                 _context.SaveChanges();
                 //return Accepted(filmeDb);
