@@ -23,7 +23,6 @@ namespace FilmesAPI.Data.Dtos
         [Required(ErrorMessage = "A duração é obrigatória!")]
         [Range(1, 300, ErrorMessage = "A duração deve estar entre 1 e 300 minutos")]
         public int Duracao { get; set; }
-
         public DateTime HoraDaConsulta { get; set; }
     }
 }
